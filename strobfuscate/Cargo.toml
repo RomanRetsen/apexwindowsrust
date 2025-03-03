@@ -1,0 +1,15 @@
+[package]
+name = "strobfuscate"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+quote = "1.0.38"
+syn = "2.0.98"
+rand = "0.9.0"
+
+[dependencies.obfuscated_strings]
+path = "../obfuscated_strings"
+
+[lib]
+proc-macro = true

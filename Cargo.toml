@@ -1,0 +1,32 @@
+[package]
+name = "dllloading"
+version = "0.1.0"
+edition = "2021"
+
+[[example]]
+name = "dll_hijack"
+crate-type = ["cdylib"]
+
+[dependencies]
+clap = { version = "4.5.26", features = ["derive"] }
+modular-bitfield = "0.11.2"
+thiserror = "2.0.11"
+windows-sys = { version = "0.59.0", features = ["Win32_System_SystemServices", "Win32_System_Diagnostics", "Win32_System_Diagnostics_Debug", "Win32_System_SystemInformation", "Win32_System_Memory", "Win32_System_WindowsProgramming"] }
+log = "0.4.25"
+
+[dependencies.strobfuscate]
+path = "strobfuscate"
+
+[dependencies.obfuscated_strings]
+path = "obfuscated_strings"
+
+[profile.release]
+panic = "abort"
+strip = "symbols"
+
+[workspace]
+resolver = "2"
+members = [
+    "obfuscated_strings",
+    "strobfuscate",
+]

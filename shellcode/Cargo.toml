@@ -1,0 +1,19 @@
+[package]
+name = "shellcode"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[profile.dev]
+panic = "abort"
+strip = true
+
+[profile.release]
+strip = true  #strip symbols
+opt-level = "z"  # Optimize for size.
+lto = true
+panic = "abort"
+
+[build]
+rustflags = ["-C", "link-arg=-nostdlib", "-C", "link-arg=-static", "-C", "link-arg=-Wl,-T./minimal.ld,--build-id=none", "-C", "relocation-model=pic"]
