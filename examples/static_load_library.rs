@@ -15,5 +15,13 @@ extern "system" {
     ) -> i32;
 }
 fn main() {
-    // todo - call messagebox!
+    unsafe {
+        MessageBoxW(
+            ptr::null(),
+            w!("Your message here"),
+            w!("Title"),
+            0x00000000, // MB_OK
+        );
+        // todo - call messagebox!
+    }
 }

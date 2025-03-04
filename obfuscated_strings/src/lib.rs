@@ -15,7 +15,7 @@ impl PoorlyObfuscated {
 
     pub fn from_string_with_key(input: &String, random_key: &[u8]) -> PoorlyObfuscated {
         // todo: complete this function to actually obfuscate the string
-        let data = CString::new(input).unwrap().to_bytes().to_vec();
+        let data = CString::new(input.clone().into_bytes()).unwrap().to_bytes().to_vec();
         PoorlyObfuscated { key: vec![], data }
     }
 
