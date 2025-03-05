@@ -15,21 +15,49 @@ impl PoorlyObfuscated {
 
     pub fn from_string_with_key(input: &String, random_key: &[u8]) -> PoorlyObfuscated {
         // todo: complete this function to actually obfuscate the string
-        let data = CString::new(input.clone().into_bytes()).unwrap().to_bytes().to_vec();
-        PoorlyObfuscated { key: vec![], data }
+        let data =
+            input
+                .bytes()
+                .zip(random_key.iter().cycle())
+                .map(|(b, &k)| b ^ k)
+                .collect();
+        // PoorlyObfuscated { key: vec![], data }
+        PoorlyObfuscated { key: random_key.to_vec(), data }
     }
 
     pub fn to_string(&self) -> CString {
         //todo: complete this function to deobfuscate your string
-        CString::new(self.data.clone()).unwrap()
+        let decoded: Vec<u8> = self
+            .data
+            .iter()
+            .zip(self.key.iter().cycle())
+            .map(|(&d, &k)| d ^ k)
+            .collect();
+        CString::new(decoded.clone()).unwrap()
+        // CString::new(self.data.clone()).unwrap()
     }
 }
+
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::ffi::CString;
     use std::iter::zip;
+
+    #[test]
+    fn nester_test(){
+        println!("Starting nester test");
+        let my_str = String::from("ANester");
+        // let key = [0u8; 8];
+        let key = [1,2,3,4,5,6,7,8,];
+        let test_obj =PoorlyObfuscated::from_string_with_key(&my_str, &key);
+        println!("{:?}", test_obj.key);
+        println!("{:?}", test_obj.data);
+        let input = String::from("hello");
+        let result = PoorlyObfuscated::from_string(&input).to_string();
+        println!("{:?}", result);
+        }
 
     #[test]
     fn test_string_conversion() {
